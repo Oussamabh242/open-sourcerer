@@ -1,0 +1,46 @@
+package layout
+
+
+templ Base(){
+  
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>Home</title>
+      <meta name="description" content="">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    @font-face {
+      font-family: 'SF Mono';
+      src: url('SFMono-Medium.woff2') format('woff2'),
+           url('SFMono-Medium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+    .font-sfmono {
+      font-family: 'SF Mono', monospace;
+    }
+  </style>
+    </head>
+  <body class="h-screen" >
+
+<nav class=" shadow  h-16">
+    <div class="container flex items-center justify-center p-5 mx-auto text-gray-900 capitalize dark:text-gray-900 text-xl">
+        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Home</a>
+
+        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Blog</a>
+
+        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">About</a>
+        <a href="https://github.com/Oussamabh242" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">GitHub</a>
+    </div>
+</nav>            
+      { children... }
+      
+    </body>
+  </html>
+
+}

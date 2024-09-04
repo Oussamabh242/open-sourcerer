@@ -1,5 +1,22 @@
-# air.toml
 root = "."
 tmp_dir = "tmp"
-build_cmd = "go build -o ./tmp/main ."
-run_cmd = "./tmp/main"
+
+[build]
+  cmd = "make run"
+  bin = "./tmp/main"
+  delay = 1000
+  exclude_dir = ["assets", "tmp", "vendor"]
+  include_ext = ["go", "templ"]
+  exclude_regex = ["_test\\.go"]
+
+[log]
+  time = false
+
+[color]
+  main = "yellow"
+  watcher = "cyan"
+  build = "green"
+  runner = "magenta"
+
+[misc]
+  clean_on_exit = true
