@@ -9,5 +9,7 @@ generate:
 run: generate
 	$(GOCMD) run main.go
 
-
+format: 
+	$(GOCMD) fmt
+	$(TEMPL) fmt .
 	

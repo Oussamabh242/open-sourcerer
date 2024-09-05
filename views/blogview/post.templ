@@ -1,0 +1,64 @@
+package blogview
+
+//import "github.com/Oussamabh242/open-sourcerer/views/layout"
+templ BlogPost(body string) {
+	<div class="w-11/12 sm:w-3/5 mx-auto">
+		<div id="markdow" class="markdow">{ body }</div>
+	</div>
+	<script>
+    function rec(elm) {
+	if(elm.nodeName==="CODE"){
+    return ;
+  }
+	if(elm.nodeName==="LI"){
+		if(elm.parentNode.nodeName==="OL"){
+      elm.className =styleMap["OL_LI"]; 
+    }
+	else{
+		elm.className = styleMap["UL_LI"] ;
+	}
+}
+  // Check if the current element has no children
+  if (elm.children.length === 0) {
+    // Apply the style based on the node name
+		console.log(elm.nodeName);
+    if (elm.nodeName === "LI") {
+console.log("i am li")
+      elm.className = styleMap["OL_LI"];
+    } else {
+      elm.className = styleMap[elm.nodeName] || ""; // Use an empty string as a fallback
+    }
+  } else {
+    // Recur for each child element
+    for (let i = 0; i < elm.children.length; i++) {
+      rec(elm.children[i]);
+    }
+  }
+}
+
+    function renderMarkdown() {
+        const input =document.getElementById('markdow').innerHTML;
+        const result = marked.parse(input);
+        document.getElementById('markdow').innerHTML = result;
+        const markdown = document.getElementById('markdow') ;
+        const children = markdown.children ; 
+        let thisChild = ""; 
+        /*for(let i = 0 ; i<children.length ; i++){
+           thisChild = children[i] ;
+           if(thisChild.nodeName==='OL'){
+             for(let j = 0 ; j<thisChild.children.length; j++){
+                thisChild.children[j].className =styleMap['OL_LI']
+             }
+           }
+          thisChild.className = styleMap[thisChild.nodeName] ;
+        }*/
+        rec(markdown) ;
+
+    }
+
+    renderMarkdown();
+    
+    
+</script>
+	<script>hljs.highlightAll();</script>
+}

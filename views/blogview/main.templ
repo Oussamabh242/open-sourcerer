@@ -1,0 +1,29 @@
+package blogview
+
+import "github.com/Oussamabh242/open-sourcerer/views/layout"
+
+templ Main() {
+	@layout.Base("Blog") {
+		<div class=" pt-6">
+			<div class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
+				<form hx-post="/add" hx-target="#post" hx-swap="innerHTML">
+					<!-- Body Field -->
+					<div class="mb-4">
+						<label for="body" class="block text-sm font-medium text-gray-700">Body</label>
+						<textarea id="body" name="body" rows="6" placeholder="Write your post..." class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required></textarea>
+					</div>
+					<!-- Tags Field -->
+					<div class="mb-4">
+						<label for="tags" class="block text-sm font-medium text-gray-700">Tags</label>
+						<input type="text" id="tags" name="tags" placeholder="Add tags separated by commas" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
+					</div>
+					<!-- Submit Button -->
+					<div class="text-right">
+						<button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Submit</button>
+					</div>
+				</form>
+			</div>
+			<div id="post" class="post"></div>
+		</div>
+	}
+}

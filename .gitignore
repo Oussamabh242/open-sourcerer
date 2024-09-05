@@ -1,2 +1,5 @@
 tmp/
 *_templ.go
+dev.db
+tailwind.config.js
+*.woff*

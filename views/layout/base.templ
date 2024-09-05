@@ -1,19 +1,26 @@
 package layout
 
-
-templ Base(){
-  
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <title>Home</title>
-      <meta name="description" content="">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+templ Base(title string) {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<title>{ title }</title>
+			<meta name="description" content=""/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css"/>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+			<!-- and it's easy to individually load additional languages -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/go.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+			<!-- Include a CSS framework for styling (optional) -->
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown.min.css"/>
+			<!-- and it's easy to individually load additional languages -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/languages/go.min.js"></script>
+			<style>
     @font-face {
       font-family: 'SF Mono';
       src: url('SFMono-Medium.woff2') format('woff2'),
@@ -25,22 +32,52 @@ templ Base(){
       font-family: 'SF Mono', monospace;
     }
   </style>
-    </head>
-  <body class="h-screen" >
+		</head>
+		<body class="h-screen">
+			<nav class=" shadow  h-16">
+				<div class="container flex items-center justify-center p-5 mx-auto text-gray-900 capitalize dark:text-gray-900 text-xl">
+					<a href="/" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Home</a>
+					<a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Blog</a>
+					<a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">About</a>
+					<a href="https://github.com/Oussamabh242" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">GitHub</a>
+				</div>
+			</nav>
+			{ children... }
+			<script>
+let styleMap = {
+  H1: "text-3xl font-bold text-gray-900 mb-4",
+  H2: "text-2xl font-semibold text-gray-800 mb-3",
+  H3: "text-xl font-medium text-gray-800 mb-2",
+  H4: "text-lg font-medium text-gray-700 mb-2",
+  H5: "text-base font-medium text-gray-700 mb-1",
+  H6: "text-sm font-medium text-gray-700 mb-1",
+  P: "text-gray-700 mb-4 leading-relaxed",
+  STRONG: "font-bold text-gray-900",
+  EM: "italic text-gray-800",
+  A: "text-blue-600 hover:text-blue-800 underline",
+  CODE: "bg-gray-100 text-gray-800 px-1 py-0.5 rounded",
+  PRE_CODE: "bg-gray-100 text-gray-800 p-4 rounded-lg mb-4 overflow-x-auto",
+  UL_LI: "list-disc list-inside mb-2 text-gray-700",
+  OL_LI: "list-decimal list-inside mb-2 text-gray-700",
+  BLOCKQUOTE: "border-l-4 border-gray-300 pl-4 italic text-gray-600 mb-4",
+  HR: "border-t border-gray-300 my-8",
+  IMG: "max-w-full h-auto rounded-lg shadow-md",
+  TABLE: "border-collapse border border-gray-300 mb-4",
+  TH: "bg-gray-100 font-semibold p-2 border border-gray-300 text-gray-700",
+  TD: "p-2 border border-gray-300 text-gray-700",
+  TASK_LIST: "list-none pl-6 relative before:content-['✓'] before:absolute before:left-0 before:text-gray-500",
+  MARK: "bg-yellow-100 px-1 rounded",
+  SUP: "text-xs align-super text-gray-500",
+  DEL: "line-through text-gray-500",
+  DL_DT: "font-bold mb-1 text-gray-800",
+  DL_DD: "pl-4 mb-4 text-gray-700",
+  ABBR: "underline dotted text-gray-700",
+  SUB: "text-xs align-sub text-gray-700",
+  SUP: "text-xs align-super text-gray-700"
+};
 
-<nav class=" shadow  h-16">
-    <div class="container flex items-center justify-center p-5 mx-auto text-gray-900 capitalize dark:text-gray-900 text-xl">
-        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Home</a>
 
-        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">Blog</a>
-
-        <a href="#" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">About</a>
-        <a href="https://github.com/Oussamabh242" class="text-gray-800 transition-colors duration-100 transform hover:text-blue-500 mx-1.5 sm:mx-6">GitHub</a>
-    </div>
-</nav>            
-      { children... }
-      
-    </body>
-  </html>
-
+    </script>
+		</body>
+	</html>
 }
