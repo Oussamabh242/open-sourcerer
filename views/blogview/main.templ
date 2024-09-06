@@ -2,11 +2,15 @@ package blogview
 
 import "github.com/Oussamabh242/open-sourcerer/views/layout"
 
-templ Main() {
+templ AddPost() {
 	@layout.Base("Blog") {
-		<div class=" pt-6">
-			<div class="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-				<form hx-post="/add" hx-target="#post" hx-swap="innerHTML">
+		<div class=" pt-6 sm:w-4/5 mx-auto">
+			<div class=" p-6 bg-white shadow-md rounded-lg">
+				<form>
+					<div class="mb-4">
+						<label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+						<input type="text" id="title" name="title" placeholder="Enter the title of your post" class="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required/>
+					</div>
 					<!-- Body Field -->
 					<div class="mb-4">
 						<label for="body" class="block text-sm font-medium text-gray-700">Body</label>
@@ -19,11 +23,12 @@ templ Main() {
 					</div>
 					<!-- Submit Button -->
 					<div class="text-right">
-						<button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Submit</button>
+						<button hx-post="/add" hx-target="#post" hx-swap="innerHTML" type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Submit</button>
+						<button hx-post="/preview" hx-target="#post" hx-swap="innerHTML" hx-post class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">Preview</button>
 					</div>
 				</form>
 			</div>
-			<div id="post" class="post"></div>
 		</div>
+		<div id="post" class="post"></div>
 	}
 }

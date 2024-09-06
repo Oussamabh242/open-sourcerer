@@ -1,29 +1,37 @@
 package blogview
 
-//import "github.com/Oussamabh242/open-sourcerer/views/layout"
+import "github.com/Oussamabh242/open-sourcerer/views/layout"
+
 templ BlogPost(body string) {
-	<div class="w-11/12 sm:w-3/5 mx-auto">
-		<div id="markdow" class="markdow">{ body }</div>
-	</div>
-	<script>
+	@layout.Base("blog post") {
+		<div class="w-11/12 sm:w-3/5 mx-auto py-6">
+			<div id="markdow" class="markdow"><pre id="thing">{ body }</pre></div>
+		</div>
+		<script>
     function rec(elm) {
 	if(elm.nodeName==="CODE"){
-    return ;
+    if(elm.parentNode.nodeName != "PRE" ){
+      elm.className = styleMap["CODE"] ;
+    }
+    else {
+      return ; 
+    }
+  }
+  if(elm.nodeName==="BLOCKQUOTE"){
+    elm.className = styleMap["BLOCKQUOTE"]
+
   }
 	if(elm.nodeName==="LI"){
 		if(elm.parentNode.nodeName==="OL"){
       elm.className =styleMap["OL_LI"]; 
     }
-	else{
-		elm.className = styleMap["UL_LI"] ;
-	}
-}
-  // Check if the current element has no children
+	  else{
+		  elm.className = styleMap["UL_LI"] ;
+	  }
+  }
   if (elm.children.length === 0) {
     // Apply the style based on the node name
-		console.log(elm.nodeName);
     if (elm.nodeName === "LI") {
-console.log("i am li")
       elm.className = styleMap["OL_LI"];
     } else {
       elm.className = styleMap[elm.nodeName] || ""; // Use an empty string as a fallback
@@ -37,21 +45,11 @@ console.log("i am li")
 }
 
     function renderMarkdown() {
-        const input =document.getElementById('markdow').innerHTML;
+        const input =document.getElementById('thing').innerText;
+        console.log(document.getElementById('markdow') , input)
         const result = marked.parse(input);
         document.getElementById('markdow').innerHTML = result;
         const markdown = document.getElementById('markdow') ;
-        const children = markdown.children ; 
-        let thisChild = ""; 
-        /*for(let i = 0 ; i<children.length ; i++){
-           thisChild = children[i] ;
-           if(thisChild.nodeName==='OL'){
-             for(let j = 0 ; j<thisChild.children.length; j++){
-                thisChild.children[j].className =styleMap['OL_LI']
-             }
-           }
-          thisChild.className = styleMap[thisChild.nodeName] ;
-        }*/
         rec(markdown) ;
 
     }
@@ -60,5 +58,6 @@ console.log("i am li")
     
     
 </script>
-	<script>hljs.highlightAll();</script>
+		<script>hljs.highlightAll();</script>
+	}
 }

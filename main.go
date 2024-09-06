@@ -9,7 +9,7 @@ import (
 	"github.com/Oussamabh242/open-sourcerer/views/blogview"
 	"github.com/Oussamabh242/open-sourcerer/views/home"
 
-	"github.com/a-h/templ"
+	// "github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
 )
 
@@ -28,24 +28,28 @@ func main() {
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
 
-		return Render(c, http.StatusOK, home.Index("oussama", "21"))
+		return handlers.Render(c, http.StatusOK, home.Index("oussama", "21"))
 	})
-	e.GET("/blog", func(c echo.Context) error {
-		return Render(c, http.StatusOK, blogview.Main())
+	e.GET("/blog/add", func(c echo.Context) error {
+		return handlers.Render(c, http.StatusOK, blogview.AddPost())
 	})
 
 	e.POST("/add", blogHandler.CreatePostHandler)
+	e.GET("/blog", blogHandler.GetAllPosts)
+	e.GET("/blog/:id", blogHandler.GetPost)
+
+	e.POST("/preview", handlers.PreviewPost)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }
 
-func Render(ctx echo.Context, statusCode int, t templ.Component) error {
-	buf := templ.GetBuffer()
-	defer templ.ReleaseBuffer(buf)
-
-	if err := t.Render(ctx.Request().Context(), buf); err != nil {
-		return err
-	}
-
-	return ctx.HTML(statusCode, buf.String())
-}
+// func Render(ctx echo.Context, statusCode int, t templ.Component) error {
+// 	buf := templ.GetBuffer()
+// 	defer templ.ReleaseBuffer(buf)
+//
+// 	if err := t.Render(ctx.Request().Context(), buf); err != nil {
+// 		return err
+// 	}
+//
+// 	return ctx.HTML(statusCode, buf.String())
+// }
