@@ -1,0 +1,38 @@
+
+body {
+  background-color: #0d1117; /* GitHub dark background color */
+  color: #c9d1d9;            /* Light text color */
+}
+
+header, footer {
+  background-color: #161b22; /* Dark gray background for header and footer */
+}
+
+h1 {
+  color: #c9d1d9; /* Light color for headings */
+}
+
+a {
+  color: #c9d1d9; /* Link color in dark mode */
+}
+
+/* Optional: Other elements that should have dark mode styles */
+code {
+  background-color: #161b22; /* Darker code block background */
+  color: #c9d1d9;            /* Lighter text color in code blocks */
+}
+
+
+
+
+    @font-face {
+      font-family: 'SF Mono';
+      src: url('SFMono-Medium.woff2') format('woff2'),
+           url('SFMono-Medium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+    .font-sfmono {
+      font-family: 'SF Mono', monospace;
+    }
+

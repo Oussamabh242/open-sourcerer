@@ -2,13 +2,13 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
+	"fmt"
 	"strconv"
 	"time"
-
 	"github.com/Oussamabh242/open-sourcerer/dbase"
 	"github.com/Oussamabh242/open-sourcerer/views/blogview"
+	"github.com/Oussamabh242/open-sourcerer/views/layout"
 	"github.com/labstack/echo/v4"
 )
 
@@ -54,30 +54,33 @@ func PreviewPost(c echo.Context) error {
 	content := c.FormValue("body")
 	strTime := time.Now().Format("02 Jan 2006")
 	post := fmt.Sprintf("# %s\n\n> ###### %s\n\n%s", title, strTime, content)
-	return Render(c, 200, blogview.BlogPost(post))
+	return Render(c, 200, blogview.BlogPost("",post))
+}
+
+func AddPost(c echo.Context) error {
+	return Render(c, 200, blogview.AddPost())
 }
 
 func (b BlogHandler) GetPost(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		resp := "<h1> You Should Provide a number </h1>"
 		return c.HTML(400, resp)
 	}
 	post, err := GetBlogById(b.db, id)
 	if err == DB_NO_RECORD {
-		resp := "<h1> 404 Not found </h1>"
-		return c.HTML(404, resp)
+		return Render(c ,404 ,layout.NotFound())
 	}
 
-	return Render(c, 200, blogview.BlogPost(post.Content))
+	return Render(c, 200, blogview.BlogPost(post.Title , post.Content))
 
 }
 
 func (b BlogHandler) GetAllPosts(c echo.Context) error {
 	posts, err := GetAllPostsDB(b.db)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		resp := "<h1>Internal Server error </h1>"
 		return c.HTML(500, resp)
 	}
@@ -87,7 +90,7 @@ func (b BlogHandler) GetAllPosts(c echo.Context) error {
 }
 
 const singlePost = `
-SELECT content FROM articles 
+SELECT title , content FROM articles 
 WHERE id = ? ;
 `
 
@@ -95,13 +98,13 @@ func GetBlogById(db *sql.DB, id int) (Blog, error) {
 	row := db.QueryRow(singlePost, id)
 	var post Blog
 
-	err := row.Scan(&post.Content)
+	err := row.Scan(&post.Title , &post.Content)
 	if err == sql.ErrNoRows {
-		fmt.Println(err)
+		log.Println(err)
 
 		return Blog{}, DB_NO_RECORD
 	} else if err != nil {
-		fmt.Println("db error", err)
+		log.Println("db error", err)
 		return Blog{}, err
 	}
 	return post, nil
@@ -132,5 +135,3 @@ func GetAllPostsDB(db *sql.DB) ([]blogview.Overview, error) {
 	return allposts, nil
 }
 
-// GetBlogById(b.db, 1)
-// 	return c.HTML(418, "<h1> Too short </h1>")

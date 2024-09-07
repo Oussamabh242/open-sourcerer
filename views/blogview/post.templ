@@ -2,62 +2,13 @@ package blogview
 
 import "github.com/Oussamabh242/open-sourcerer/views/layout"
 
-templ BlogPost(body string) {
-	@layout.Base("blog post") {
+templ BlogPost(title ,body string) {
+	@layout.Base(title) {
 		<div class="w-11/12 sm:w-3/5 mx-auto py-6">
 			<div id="markdow" class="markdow"><pre id="thing">{ body }</pre></div>
 		</div>
-		<script>
-    function rec(elm) {
-	if(elm.nodeName==="CODE"){
-    if(elm.parentNode.nodeName != "PRE" ){
-      elm.className = styleMap["CODE"] ;
-    }
-    else {
-      return ; 
-    }
-  }
-  if(elm.nodeName==="BLOCKQUOTE"){
-    elm.className = styleMap["BLOCKQUOTE"]
-
-  }
-	if(elm.nodeName==="LI"){
-		if(elm.parentNode.nodeName==="OL"){
-      elm.className =styleMap["OL_LI"]; 
-    }
-	  else{
-		  elm.className = styleMap["UL_LI"] ;
-	  }
-  }
-  if (elm.children.length === 0) {
-    // Apply the style based on the node name
-    if (elm.nodeName === "LI") {
-      elm.className = styleMap["OL_LI"];
-    } else {
-      elm.className = styleMap[elm.nodeName] || ""; // Use an empty string as a fallback
-    }
-  } else {
-    // Recur for each child element
-    for (let i = 0; i < elm.children.length; i++) {
-      rec(elm.children[i]);
-    }
-  }
-}
-
-    function renderMarkdown() {
-        const input =document.getElementById('thing').innerText;
-        console.log(document.getElementById('markdow') , input)
-        const result = marked.parse(input);
-        document.getElementById('markdow').innerHTML = result;
-        const markdown = document.getElementById('markdow') ;
-        rec(markdown) ;
-
-    }
-
-    renderMarkdown();
-    
-    
-</script>
-		<script>hljs.highlightAll();</script>
+    @layout.Newsletter()
+  <script src="/static/js/postScrpts.js"></script>
 	}
+
 }
