@@ -6,29 +6,27 @@ import (
 	"os"
 )
 
-
-
-func SendEmails(body string,to []string) error {
-  smtpHost := "smtp.gmail.com"
-  smtpPort :="587"
-  auth := smtp.PlainAuth("",os.Getenv("SMTPMAIL"),os.Getenv("SMTPPASS") ,smtpHost)
-  err:= smtp.SendMail(smtpHost+":"+smtpPort ,auth ,os.Getenv("SMTPMAIL") ,to ,[]byte(body))
-  if err != nil {
-    return err
-  }
-  return nil
+func SendEmails(body string, to []string) error {
+	smtpHost := "smtp.gmail.com"
+	smtpPort := "587"
+	auth := smtp.PlainAuth("", os.Getenv("SMTPMAIL"), os.Getenv("SMTPPASS"), smtpHost)
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, os.Getenv("SMTPMAIL"), to, []byte(body))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func SendConfirmSubscription(to string , link string) error {
-  var strto []string
-  strto = append(strto, to)
-  return SendEmails(fmt.Sprintf(body , link) ,strto) 
+func SendConfirmSubscription(to string, link string) error {
+	var strto []string
+	strto = append(strto, to)
+	return SendEmails(fmt.Sprintf(body, link), strto)
 }
 
 const body = "Subject: Confirm Your Subscription\r\n" +
-			"MIME-version: 1.0;\r\n" +
-			"Content-Type: text/html; charset=\"UTF-8\";\r\n\r\n" +
-			`
+	"MIME-version: 1.0;\r\n" +
+	"Content-Type: text/html; charset=\"UTF-8\";\r\n\r\n" +
+	`
 			<!DOCTYPE html>
 			<html lang="en">
 			<head>

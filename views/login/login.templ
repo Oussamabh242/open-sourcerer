@@ -2,15 +2,12 @@ package login
 
 import "github.com/Oussamabh242/open-sourcerer/views/layout"
 
-
 templ Login() {
-  @layout.Base("login"){
-    <form hx-post="/signin">
-      <input name="email" type="email" class="border-4">
-
-      <input name="password" type="text" class="border-4">
-      
-      <input name="submit" type="submit" value="submit" class="border-4">
-    </form>
-  }
+	@layout.Base("login") {
+		<form hx-post="/signin">
+			<input name="email" type="email" class="border-4"/>
+			<input name="password" type="text" class="border-4"/>
+			<input name="submit" type="submit" value="submit" class="border-4"/>
+		</form>
+	}
 }

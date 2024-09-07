@@ -2,13 +2,12 @@ package blogview
 
 import "github.com/Oussamabh242/open-sourcerer/views/layout"
 
-templ BlogPost(title ,body string) {
+templ BlogPost(title, body string) {
 	@layout.Base(title) {
 		<div class="w-11/12 sm:w-3/5 mx-auto py-6">
 			<div id="markdow" class="markdow"><pre id="thing">{ body }</pre></div>
 		</div>
-    @layout.Newsletter()
-  <script src="/static/js/postScrpts.js"></script>
+		@layout.Newsletter()
+		<script src="/static/js/postScrpts.js"></script>
 	}
-
 }

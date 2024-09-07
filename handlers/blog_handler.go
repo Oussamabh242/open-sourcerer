@@ -2,14 +2,14 @@ package handlers
 
 import (
 	"database/sql"
-	"log"
 	"fmt"
-	"strconv"
-	"time"
 	"github.com/Oussamabh242/open-sourcerer/dbase"
 	"github.com/Oussamabh242/open-sourcerer/views/blogview"
 	"github.com/Oussamabh242/open-sourcerer/views/layout"
 	"github.com/labstack/echo/v4"
+	"log"
+	"strconv"
+	"time"
 )
 
 var (
@@ -54,7 +54,7 @@ func PreviewPost(c echo.Context) error {
 	content := c.FormValue("body")
 	strTime := time.Now().Format("02 Jan 2006")
 	post := fmt.Sprintf("# %s\n\n> ###### %s\n\n%s", title, strTime, content)
-	return Render(c, 200, blogview.BlogPost("",post))
+	return Render(c, 200, blogview.BlogPost("", post))
 }
 
 func AddPost(c echo.Context) error {
@@ -70,10 +70,10 @@ func (b BlogHandler) GetPost(c echo.Context) error {
 	}
 	post, err := GetBlogById(b.db, id)
 	if err == DB_NO_RECORD {
-		return Render(c ,404 ,layout.NotFound())
+		return Render(c, 404, layout.NotFound())
 	}
 
-	return Render(c, 200, blogview.BlogPost(post.Title , post.Content))
+	return Render(c, 200, blogview.BlogPost(post.Title, post.Content))
 
 }
 
@@ -98,7 +98,7 @@ func GetBlogById(db *sql.DB, id int) (Blog, error) {
 	row := db.QueryRow(singlePost, id)
 	var post Blog
 
-	err := row.Scan(&post.Title , &post.Content)
+	err := row.Scan(&post.Title, &post.Content)
 	if err == sql.ErrNoRows {
 		log.Println(err)
 
@@ -134,4 +134,3 @@ func GetAllPostsDB(db *sql.DB) ([]blogview.Overview, error) {
 	}
 	return allposts, nil
 }
-
