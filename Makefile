@@ -13,6 +13,7 @@ format:
 	$(GOCMD) fmt
 	$(TEMPL) fmt .
 
-build: generate
+deploy: 
+	$(GOCMD) install github.com/a-h/templ/cmd/templ@latest
+	$(TEMPL) generate
 	$(GOCMD) build -tags netgo -ldflags '-s -w' -o app
-
