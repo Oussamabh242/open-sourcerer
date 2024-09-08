@@ -13,5 +13,6 @@ format:
 	$(GOCMD) fmt
 	$(TEMPL) fmt .
 
-build:
-	$(GOCMD) build -o main
+build: generate
+	$(GOCMD) build -tags netgo -ldflags '-s -w' -o app
+
