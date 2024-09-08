@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/Oussamabh242/open-sourcerer/dbase"
 	"github.com/Oussamabh242/open-sourcerer/handlers"
@@ -18,7 +20,11 @@ const (
 )
 
 func main() {
-  
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080" // Default port if not specified
+        fmt.Println("No PORT environment variable detected, defaulting to", port)
+    } 
 	db, err := dbase.NewConnection("dev.db")
 	if err != nil {
 		log.Fatal("error happend while connecting to the data base")
@@ -45,5 +51,5 @@ func main() {
 	e.DELETE("/admin/delete/:id", handlers.Middleware(dashboardHandler.DeletePost, handlers.MainHandler))
 	e.GET("/admin/view/update/:id", handlers.Middleware(dashboardHandler.UpdateView, handlers.MainHandler))
 	e.PUT("/admin/update/:id", handlers.Middleware(dashboardHandler.Update, handlers.MainHandler))
-	e.Logger.Fatal(e.Start(":3000"))
+  e.Logger.Fatal(e.Start(":"+port))
 }
