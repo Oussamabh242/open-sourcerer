@@ -6,9 +6,11 @@ import (
 
 	"github.com/Oussamabh242/open-sourcerer/dbase"
 	"github.com/Oussamabh242/open-sourcerer/handlers"
+	"golang.org/x/time/rate"
 
 	// "github.com/a-h/templ"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 const (
@@ -16,15 +18,17 @@ const (
 )
 
 func main() {
+  
 	db, err := dbase.NewConnection("dev.db")
 	if err != nil {
 		log.Fatal("error happend while connecting to the data base")
 	}
-
 	blogHandler := handlers.NewHandler(db)
 	newsHandler := handlers.NewNewsHandler(db)
 	dashboardHandler := handlers.NewDashHandler(db)
 	e := echo.New()
+  e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(rate.Limit(10))))
+
 	e.Static("/static", "static")
 
 	e.GET("/", handlers.MainHandler)

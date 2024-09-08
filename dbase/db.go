@@ -6,7 +6,7 @@ import (
 )
 
 func NewConnection(conn string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite3", "dev.db")
+	db, err := sql.Open("sqlite3", conn)
 	if err != nil {
 		return nil, err
 	}

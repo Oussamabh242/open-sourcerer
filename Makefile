@@ -12,4 +12,6 @@ run: generate
 format: 
 	$(GOCMD) fmt
 	$(TEMPL) fmt .
-	
+
+build:
+	$(GOCMD) build -o main
