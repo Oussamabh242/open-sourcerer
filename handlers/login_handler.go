@@ -32,7 +32,7 @@ func Signin(c echo.Context) error {
 	cookie := new(http.Cookie)
 	cookie.Name = "jwt"
 	cookie.Value = token
-	cookie.Secure = true
+	cookie.Secure = false
 	cookie.HttpOnly = true
 	cookie.SameSite = http.SameSiteLaxMode
 	cookie.Expires = time.Now().Add(24 * time.Hour)

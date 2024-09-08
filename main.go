@@ -23,6 +23,7 @@ func main() {
 
 	blogHandler := handlers.NewHandler(db)
 	newsHandler := handlers.NewNewsHandler(db)
+	dashboardHandler := handlers.NewDashHandler(db)
 	e := echo.New()
 	e.Static("/static", "static")
 
@@ -35,5 +36,10 @@ func main() {
 	e.GET("/login", handlers.Login)
 	e.POST("/signin", handlers.Signin)
 	e.POST("/subscribe", newsHandler.Subscribe)
+	e.GET("/subscription/confirm/:sid", newsHandler.Confirm)
+	e.GET("/admin/dashboard", handlers.Middleware(dashboardHandler.Dashboard, handlers.MainHandler))
+	e.DELETE("/admin/delete/:id", handlers.Middleware(dashboardHandler.DeletePost, handlers.MainHandler))
+	e.GET("/admin/view/update/:id", handlers.Middleware(dashboardHandler.UpdateView, handlers.MainHandler))
+	e.PUT("/admin/update/:id", handlers.Middleware(dashboardHandler.Update, handlers.MainHandler))
 	e.Logger.Fatal(e.Start(":3000"))
 }

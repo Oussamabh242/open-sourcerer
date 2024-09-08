@@ -1,0 +1,52 @@
+package dashboard
+
+import (
+	"fmt"
+	"github.com/Oussamabh242/open-sourcerer/views/blogview"
+	"github.com/Oussamabh242/open-sourcerer/views/layout"
+)
+
+templ Single(post blogview.Overview) {
+	<div class="bg-github-dark-secondary border border-github-border rounded-lg overflow-hidden">
+		<div class="p-4">
+			<h2 class="font-bold text-xl mb-2">{ post.Title }</h2>
+			<p class="text-github-text-secondary">View count: { fmt.Sprintf("%d",post.View_count) }</p>
+		</div>
+		<div class="px-4 py-3 bg-github-dark-secondary border-t border-github-border flex justify-between">
+			<button class="bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded text-sm" hx-delete={ fmt.Sprintf("/admin/delete/%d", post.ID) }>
+				Delete
+			</button>
+			<button class="bg-github-dark hover:bg-gray-700 text-github-text py-1 px-3 rounded border border-github-border text-sm" hx-get={ fmt.Sprintf("/admin/view/update/%d", post.ID) }>
+				Update
+			</button>
+		</div>
+	</div>
+}
+
+templ Dashbord(posts []blogview.Overview) {
+	@layout.Base("Dashbord") {
+		<script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'github-dark': '#0d1117',
+                        'github-dark-secondary': '#161b22',
+                        'github-border': '#30363d',
+                        'github-text': '#c9d1d9',
+                        'github-text-secondary': '#8b949e',
+                    }
+                }
+            }
+        }
+    </script>
+		<div class="sm:w-11/12 container mx-auto">
+			<h1 class=" text-3xl font-bold mb-8">Blog Dashboard</h1>
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				for _ , post := range posts {
+					@Single(post)
+				}
+			</div>
+		</div>
+	}
+}
