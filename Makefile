@@ -10,7 +10,7 @@ run: generate
 	$(GOCMD) run main.go
 
 format: 
-	$(GOCMD) fmt
+	$(GOCMD) fmt ./...
 	$(TEMPL) fmt .
 
 deploy: 

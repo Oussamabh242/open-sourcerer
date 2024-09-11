@@ -35,25 +35,26 @@ func (b BlogHandler) CreatePostHandler(c echo.Context) error {
 		log.Fatal(fmt.Sprintf("error while inserting new article to the db %s", err))
 		return c.HTML(500, "<h1> error when inserting </h1>")
 	}
-	post, err := dbase.GetPostId(b.db, title)
-	if err != nil {
-		log.Println(post, err)
-	} else {
 
+	// notify all newsletter subscribers about the new post
+	go func() {
+		post, err := dbase.GetPostId(b.db, title)
+		if err != nil {
+			log.Println(post, err)
+			return
+		}
 		subs, err := dbase.GetSubscribers(b.db)
 		if err != nil {
 			log.Println(subs, err)
-		} else {
-
-			var strSubs []string
-			for _, sub := range subs {
-				strSubs = append(strSubs, sub.Email)
-			}
-			go SendNewPostAdded(strSubs, fmt.Sprintf("http://"+c.Request().Host+"/blog/%d", post.ID), post.Title)
-
+			return
 		}
+		var strSubs []string
+		for _, sub := range subs {
+			strSubs = append(strSubs, sub.Email)
+		}
+		SendNewPostAdded(strSubs, fmt.Sprintf("http://"+c.Request().Host+"/blog/%d", post.ID), post.Title)
 
-	}
+	}()
 
 	return c.HTML(201, "<h1> added successfully </h1>")
 }
@@ -84,7 +85,7 @@ func (b BlogHandler) GetPost(c echo.Context) error {
 	if err == dbase.DB_NO_RECORD {
 		return Render(c, 404, layout.NotFound())
 	}
-
+	go dbase.IncrementViews(b.db, id)
 	return Render(c, 200, blogview.BlogPost(post.Title, post.Content))
 
 }

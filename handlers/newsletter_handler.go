@@ -9,6 +9,7 @@ import (
 	"github.com/labstack/echo/v4"
 
 	"github.com/Oussamabh242/open-sourcerer/dbase"
+	"github.com/Oussamabh242/open-sourcerer/views/layout"
 )
 
 type NewsHandler struct {
@@ -40,12 +41,11 @@ func (n NewsHandler) Confirm(c echo.Context) error {
 		log.Println(err)
 		return c.HTML(404, "<h1>Confirmation Link might be expired please subscribe again </h1>")
 	}
-	fmt.Println(user.Email)
 	err = dbase.ConfirmSub(n.db, user.Email)
 	if err != nil {
 		log.Println(err)
 		return fmt.Errorf("Some Thing Wrong Happebd")
 	}
-	return c.HTML(404, "<h1>You are now subscribed to the newsletter </h1>")
-
+  go dbase.DeletePendingSub(n.db ,user.Email)
+	return Render(c , 200 ,layout.ThankYouSubscription())
 }

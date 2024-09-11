@@ -28,7 +28,7 @@ func formatDate(t time.Time) string {
 
 const insertPost = `
 INSERT INTO articles(title ,content , created_at)
-VALUES(? , ? , ?);
+VALUES($1 , $2 , $3);
 `
 
 func NewBlogPost(db *sql.DB, title, content string) error {
@@ -43,7 +43,7 @@ func NewBlogPost(db *sql.DB, title, content string) error {
 
 const singlePost = `
 SELECT title , content FROM articles 
-WHERE id = ? ;
+WHERE id = $1 ;
 `
 
 func GetBlogById(db *sql.DB, id int) (Blog, error) {
@@ -90,7 +90,7 @@ func GetAllPostsDB(db *sql.DB) ([]blogview.Overview, error) {
 
 const NotifPost = `
 SELECT id   FROM articles 
-WHERE title =  ? ;
+WHERE title =  $1 ;
 `
 
 func GetPostId(db *sql.DB, title string) (Blog, error) {
@@ -112,7 +112,7 @@ func GetPostId(db *sql.DB, title string) (Blog, error) {
 }
 
 const DELETE_POST = `
-DELETE FROM articles where id = ? ;
+DELETE FROM articles where id = $1 ;
 `
 
 func DeletePost(db *sql.DB, id int) error {
@@ -122,12 +122,26 @@ func DeletePost(db *sql.DB, id int) error {
 
 const UPDATE_POST = `
 UPDATE articles 
-SET title = ? , content = ?
-WHERE id = ? 
+SET title = $1 , content = $2
+WHERE id = $3
 ;
 `
 
 func UpdatePost(db *sql.DB, title string, content string, id int) error {
 	_, err := db.Exec(UPDATE_POST, title, content, id)
 	return err
+}
+
+const INCREMENT_VIEW_COUNT = `
+UPDATE articles 
+SET view_count = view_count+1
+WHERE id = $1
+;
+`
+
+func IncrementViews(db *sql.DB, id int) {
+	_, err := db.Exec(INCREMENT_VIEW_COUNT, id)
+	if err != nil {
+		log.Println("error incrementing view_count , ", err)
+	}
 }

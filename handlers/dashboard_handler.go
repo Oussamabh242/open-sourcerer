@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"strconv"
 
@@ -64,7 +63,6 @@ func (dh DashboardHandler) UpdateView(c echo.Context) error {
 		return Render(c, 404, layout.NotFound())
 	}
 	c.Response().Header().Set("HX-Redirect", "/admin/view/update/"+c.Param("id"))
-	fmt.Println(dashPost.Title)
 	return Render(c, 200, dashboard.Update(dashPost))
 }
 

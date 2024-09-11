@@ -10,21 +10,27 @@ type PendingSub struct {
 }
 
 // add the email to the db to be confirmed later
-const INSERT_CONFIRM = `INSERT INTO confirmations(id , email) values(? ,?)`
+const INSERT_CONFIRM = `INSERT INTO confirmations(id , email) values($1 ,$2)`
 
 func AddConfirm(db *sql.DB, email, id string) error {
 	_, err := db.Exec(INSERT_CONFIRM, id, email)
 	return err
 }
 
-const SUB_CONFIRM = `INSERT INTO subscribe(email) values(?);`
+const SUB_CONFIRM = `INSERT INTO subscribe(email) values($1);`
 
 func ConfirmSub(db *sql.DB, email string) error {
 	_, err := db.Exec(SUB_CONFIRM, email)
 	return err
 }
 
-const GET_EMAIL_FROM_PENDING = `SELECT email FROM confirmations where id = ? ;  `
+const AFTER_CONFIRM = `DELETE FROM confirmations where email = $1;`
+
+func DeletePendingSub(db *sql.DB, email string) error {
+	_, err := db.Exec(AFTER_CONFIRM, email)
+	return err
+}
+const GET_EMAIL_FROM_PENDING = `SELECT email FROM confirmations where id = $1 ;  `
 
 func GetEmail(db *sql.DB, id string) (PendingSub, error) {
 	row := db.QueryRow(GET_EMAIL_FROM_PENDING, id)

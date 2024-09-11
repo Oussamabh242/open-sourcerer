@@ -22,3 +22,55 @@ templ Newsletter() {
 		</div>
 	</div>
 }
+
+
+templ ThankYouSubscription() {
+	<!DOCTYPE html>
+	<html lang="en" data-theme="dark">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="description" content="Thank You for Subscribing"/>
+			<meta name="google" content="notranslate"/>
+			<link
+				href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css"
+				rel="stylesheet"
+				type="text/css"
+			/>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<link rel="stylesheet" href="/css/styles.css"/>
+			<title>Thank You for Subscribing</title>
+			<script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+		</head>
+		<body class="sample-transition" hx-boost="true">
+			<main>
+				<section
+					class="flex flex-col items-center justify-center h-[100vh] gap-4"
+				>
+					<div class="items-center justify-center flex flex-col gap-4">
+						<h1 class="text-6xl font-extrabold text-primary tracking-wide">
+							Thank You!
+						</h1>
+						<h2 class="bg-secondary px-4 py-2 text-lg rounded rotate-2 absolute">
+							You're subscribed!
+						</h2>
+					</div>
+					<p
+						class="text-sm text-center md:text-base text-gray-300 max-w-md"
+					>
+						We're excited to have you join our newsletter. You'll be the first to know about our new posts .
+					</p>
+					<a
+						hx-swap="transition:true"
+						href="/"
+						class="btn btn-primary btn-outline mt-4"
+					>
+						Back to Home
+					</a>
+				</section>
+			</main>
+		</body>
+	</html>
+}
