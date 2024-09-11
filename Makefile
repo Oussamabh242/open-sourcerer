@@ -1,7 +1,8 @@
 GOCMD=go
 TEMPL=templ
 BUILD_DIR=./tmp
-
+NPM=npm
+NPX=npx
 
 generate:
 	$(TEMPL) generate
@@ -13,7 +14,12 @@ format:
 	$(GOCMD) fmt ./...
 	$(TEMPL) fmt .
 
-deploy: 
+tailwind:
+	$(NPM) install -D tailwindcss
+	$(NPX) tailwindcss -o ./static/public/tailwind.css
+
+deploy: tailwind
 	$(GOCMD) install github.com/a-h/templ/cmd/templ@latest
 	$(TEMPL) generate
 	$(GOCMD) build -tags netgo -ldflags '-s -w' -o app
+	
