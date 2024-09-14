@@ -3,5 +3,5 @@ tmp/
 *.woff*
 dev.db
 .env
-./static/public
+static/public
 
