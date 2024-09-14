@@ -1,6 +1,7 @@
 tmp/
 *_templ.go
 *.woff*
+dev.db
 .env
 ./static/public
 
